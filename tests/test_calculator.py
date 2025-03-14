@@ -61,3 +61,4 @@ def test_log_non_positive():
     calc = CalculatorApp()
     with pytest.raises(ValueError):
         calc.perform_operation("log", 0, 0)
+    
