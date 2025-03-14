@@ -5,7 +5,7 @@ A Facade for Pandas-based history management.
 
 import os
 import pandas as pd
-from logger import LoggerSingleton
+from .logger import LoggerSingleton
 
 logger = LoggerSingleton.get_logger()
 

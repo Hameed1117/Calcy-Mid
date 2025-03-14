@@ -1,6 +1,7 @@
 """
 logger.py
 Singleton logger, reading environment variables: LOG_LEVEL, LOG_FILE
+Design Pattern Used: Singleton
 """
 
 import logging
@@ -8,7 +9,6 @@ import os
 from typing import Optional
 
 class LoggerSingleton:
-    """A Singleton class for application-wide logging."""
     _instance: Optional[logging.Logger] = None
 
     @classmethod
@@ -22,11 +22,8 @@ class LoggerSingleton:
             logger = logging.getLogger("AdvancedCalculatorLogger")
             logger.setLevel(log_level)
 
-            # Prevent adding multiple handlers if re-called
             if not logger.handlers:
-                formatter = logging.Formatter(
-                    "%(asctime)s [%(levelname)s] %(name)s - %(message)s"
-                )
+                formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s - %(message)s")
                 if log_file:
                     file_handler = logging.FileHandler(log_file)
                     file_handler.setFormatter(formatter)
@@ -37,5 +34,4 @@ class LoggerSingleton:
                     logger.addHandler(console_handler)
 
             cls._instance = logger
-        return cls._instance
         return cls._instance

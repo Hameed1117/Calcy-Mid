@@ -5,7 +5,7 @@ Command pattern for calculator operations: add, sub, mul, div, sqrt, square, cub
 
 import math
 from abc import ABC, abstractmethod
-from exceptions import DivisionByZeroError
+from .exceptions import DivisionByZeroError
 
 class Command(ABC):
     """Abstract base class for any calculator command."""
@@ -13,24 +13,20 @@ class Command(ABC):
     def execute(self, a, b):
         pass
 
-
 class AddCommand(Command):
     """Add two numbers."""
     def execute(self, a, b):
         return a + b
-
 
 class SubCommand(Command):
     """Subtract b from a."""
     def execute(self, a, b):
         return a - b
 
-
 class MulCommand(Command):
     """Multiply a by b."""
     def execute(self, a, b):
         return a * b
-
 
 class DivCommand(Command):
     """Divide a by b."""
@@ -39,7 +35,6 @@ class DivCommand(Command):
             raise DivisionByZeroError("Cannot divide by zero.")
         return a / b
 
-
 class SqrtCommand(Command):
     """Square root of a."""
     def execute(self, a, _):
@@ -47,18 +42,15 @@ class SqrtCommand(Command):
             raise ValueError("Cannot take sqrt of a negative number.")
         return math.sqrt(a)
 
-
 class SquareCommand(Command):
     """Square of a."""
     def execute(self, a, _):
         return a * a
 
-
 class CubeCommand(Command):
     """Cube of a."""
     def execute(self, a, _b_ignored):
         return a ** 3
-
 
 class LogCommand(Command):
     """Log base 10 of a."""
