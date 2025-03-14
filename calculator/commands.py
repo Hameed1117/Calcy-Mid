@@ -5,7 +5,7 @@ Command pattern for calculator operations: add, sub, mul, div, sqrt, square, cub
 
 import math
 from abc import ABC, abstractmethod
-from .exceptions import DivisionByZeroError
+from calculator.exceptions import DivisionByZeroError
 
 class Command(ABC):
     """Abstract base class for any calculator command."""
@@ -49,12 +49,12 @@ class SquareCommand(Command):
 
 class CubeCommand(Command):
     """Cube of a."""
-    def execute(self, a, _b_ignored):
+    def execute(self, a, _ignored):
         return a ** 3
 
 class LogCommand(Command):
     """Log base 10 of a."""
-    def execute(self, a, _b_ignored):
+    def execute(self, a, _ignored):
         if a <= 0:
             raise ValueError("Cannot take log of a non-positive number.")
         return math.log10(a)

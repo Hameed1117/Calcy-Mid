@@ -1,7 +1,7 @@
 """
 logger.py
-Singleton logger, reading environment variables: LOG_LEVEL, LOG_FILE
-Design Pattern Used: Singleton
+Singleton logger, reading environment variables: LOG_LEVEL, LOG_FILE.
+Design Pattern Used: Singleton.
 """
 
 import logging

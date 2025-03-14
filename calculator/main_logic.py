@@ -4,18 +4,15 @@ Core CalculatorApp that creates and executes commands,
 and interacts with HistoryFacade for persistent storage.
 
 Design Patterns Used:
-- Command Pattern: Each arithmetic operation is encapsulated in a Command class.
-- Factory Pattern: CommandFactory instantiates command objects based on the operation.
-- Facade Pattern: HistoryFacade simplifies interactions with the Pandas DataFrame.
-- Singleton Pattern: LoggerSingleton ensures one logger instance.
+- Command Pattern: Each operation is encapsulated in its own Command class.
+- Factory Pattern: CommandFactory returns the correct command.
+- Facade Pattern: HistoryFacade hides Pandas operations.
+- Singleton Pattern: LoggerSingleton provides a global logger.
 """
 
-from .commands import (
-    AddCommand, SubCommand, MulCommand, DivCommand,
-    SqrtCommand, SquareCommand, CubeCommand, LogCommand
-)
-from .history_facade import HistoryFacade
-from .logger import LoggerSingleton
+from calculator.commands import AddCommand, SubCommand, MulCommand, DivCommand, SqrtCommand, SquareCommand, CubeCommand, LogCommand
+from calculator.history_facade import HistoryFacade
+from calculator.logger import LoggerSingleton
 
 logger = LoggerSingleton.get_logger()
 
@@ -42,19 +39,13 @@ class CommandFactory:
 class CalculatorApp:
     """
     Main Calculator application class.
-    - Uses the CommandFactory to get the appropriate command (Command Pattern)
-    - Manages history through HistoryFacade (Facade Pattern)
+    Uses CommandFactory to execute the proper command and manages history via HistoryFacade.
     """
     def __init__(self, history_file="history.csv"):
         self.history = HistoryFacade(filename=history_file)
         self.history.load_history()
 
     def perform_operation(self, operation, a, b):
-        """
-        Instantiate the command object for `operation`, execute it,
-        record the result, and return it.
-        Demonstrates EAFP (try/except for conversion/execution)
-        """
         logger.info("Performing operation: %s with arguments %s and %s", operation, a, b)
         cmd = CommandFactory.get_command(operation)
         if not cmd:

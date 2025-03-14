@@ -3,18 +3,17 @@ sample_plugin.py
 An example plugin demonstrating a dynamically loaded command.
 """
 
-# You can use either a relative or absolute import here.
-from ..logger import LoggerSingleton
+from calculator.logger import LoggerSingleton
 
 logger = LoggerSingleton.get_logger()
 
 class PluginCommand:
     """
-    Example plugin command for demonstration.
+    Example plugin command.
     """
     def __init__(self):
         self.command_name = "sample_plugin"
 
     def execute(self):
         logger.info("Executing sample_plugin command!")
-        logger.info("You just ran the Sample Plugin Command!")
+        print("You just ran the Sample Plugin Command!")

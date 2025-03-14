@@ -1,18 +1,15 @@
 """
 repl.py
-An updated Read-Eval-Print Loop (REPL) with minimal if/else usage.
-Uses dictionary-based dispatch for special commands and arithmetic commands.
-Design Patterns:
-- Command Pattern: For arithmetic operations.
-- Plugin Pattern: For dynamically loaded extra commands.
+A Read-Eval-Print Loop (REPL) for the calculator.
+Supports basic arithmetic, special commands, and dynamic plugin commands.
+Design Patterns: Command and Plugin.
 """
 
 import sys
 import os
 import importlib
-
-from .main_logic import CalculatorApp
-from .logger import LoggerSingleton
+from calculator.main_logic import CalculatorApp
+from calculator.logger import LoggerSingleton
 
 logger = LoggerSingleton.get_logger()
 
@@ -98,10 +95,9 @@ class REPL:
         print("  add, sub, mul, div")
         print("\nAdvanced Commands (1 number):")
         print("  sqrt, square, cube, log")
-        plugin_commands = list(self.plugins.keys())
-        if plugin_commands:
+        if self.plugins:
             print("\nPlugin Commands:")
-            for cmd_name in plugin_commands:
+            for cmd_name in self.plugins.keys():
                 print(f"  {cmd_name}")
         print("\nSpecial Commands:")
         print("  history, clear_history, delete_history_file, save_history, load_history")
@@ -151,7 +147,6 @@ class REPL:
             if len(parts) - 1 < required_args:
                 print(f"Error: '{cmd}' requires {required_args} numeric argument(s).")
                 return True
-
             try:
                 if required_args == 2:
                     a, b = float(parts[1]), float(parts[2])

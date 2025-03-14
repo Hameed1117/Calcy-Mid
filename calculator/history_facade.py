@@ -5,7 +5,7 @@ A Facade for Pandas-based history management.
 
 import os
 import pandas as pd
-from .logger import LoggerSingleton
+from calculator.logger import LoggerSingleton
 
 logger = LoggerSingleton.get_logger()
 
@@ -14,7 +14,6 @@ class HistoryFacade:
     Provides a simplified interface to read/write history
     from a CSV file using Pandas.
     """
-
     def __init__(self, filename="history.csv"):
         self.filename = filename
         self._history_df = pd.DataFrame(columns=["operation", "operand1", "operand2", "result"])
