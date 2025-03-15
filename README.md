@@ -1,7 +1,7 @@
 # Advanced Python Calculator
 
 ## Project Overview
-This advanced Python-based calculator is developed for a Software Engineering Graduate Course. The application demonstrates professional software development practices including clean, maintainable code, the use of design patterns, comprehensive logging, dynamic configuration via environment variables, robust data handling with Pandas, and a feature-rich command-line interface (REPL) for real-time user interaction.
+This application demonstrates professional software development practices including clean, maintainable code, the use of design patterns, comprehensive logging, dynamic configuration via environment variables, robust data handling with Pandas, and a feature-rich command-line interface (REPL) for real-time user interaction.
 
 ## Key Features
 - **Calculator Operations:**  
