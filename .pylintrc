@@ -1,0 +1,35 @@
+[MASTER]
+# Directories to ignore (e.g. your virtual environment)
+ignore=venv
+
+[MESSAGES CONTROL]
+# Disable some warnings that are overly strict for many projects,
+# while keeping checks on naming and formatting.
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,
+    no-self-use,
+    fixme
+
+[FORMAT]
+# Enforce a maximum line length of 100 characters
+max-line-length=100
+
+[DESIGN]
+# Limit the number of arguments for functions to 5 (you can adjust as needed)
+max-args=5
+# Limit the number of attributes in a class to 10
+max-attributes=10
+
+[REPORTS]
+# Disable the full report output to keep the output concise
+reports=no
+
+[LOGGING]
+# Use the old-style logging format and specify the logging module
+logging-format-style=old
+logging-modules=logging
+
+disable=wrong-import-position
