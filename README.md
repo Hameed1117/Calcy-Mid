@@ -11,7 +11,7 @@
 8. [Plugin System](#plugin-system)
 9. [Tests & Code Coverage](#tests--code-coverage)
 10. [Demo Video](#demo-video)
-11. [License](#license)
+
 
 ---
 
@@ -190,7 +190,7 @@ Test files are located under [`tests/`](tests/) with coverage for:
 ## Demo Video
 
 A short (3–5 minute) video demonstrating this calculator’s features is available at:
-- **[Google Drive Video Link]([https://drive.google.com/your-video-link](https://drive.google.com/file/d/1bObYTNztKHvcxd4jIpV9f1McpXWRdIee/view?usp=sharing))**
+- **[Google Drive Video Link]((https://drive.google.com/file/d/1bObYTNztKHvcxd4jIpV9f1McpXWRdIee/view?usp=sharing))**
 
 In the video, you’ll see how to:
 - Run the application and display the menu.
