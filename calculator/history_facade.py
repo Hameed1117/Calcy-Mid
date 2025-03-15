@@ -21,7 +21,9 @@ class HistoryFacade:
         dir_name = os.path.dirname(self.filename)
         if dir_name and not os.path.exists(dir_name):
             os.makedirs(dir_name)
-        self._history_df = pd.DataFrame(columns=["operation", "operand1", "operand2", "result"])
+        self._history_df = pd.DataFrame(
+            columns=["operation", "operand1", "operand2", "result"]
+        )
 
     def load_history(self):
         """Load history from CSV if file exists."""
@@ -44,7 +46,9 @@ class HistoryFacade:
 
     def clear_history(self):
         """Clear in-memory history (does not remove file)."""
-        self._history_df = pd.DataFrame(columns=["operation", "operand1", "operand2", "result"])
+        self._history_df = pd.DataFrame(
+            columns=["operation", "operand1", "operand2", "result"]
+        )
         LOGGER.info("History cleared in memory.")
 
     def delete_history_file(self):
@@ -63,7 +67,7 @@ class HistoryFacade:
             "operand2": operand2,
             "result": result
         }
-        # Create a new DataFrame with explicit columns to avoid FutureWarning.
+        # Create a DataFrame with explicit columns to avoid FutureWarning.
         new_df = pd.DataFrame([new_record], columns=self._history_df.columns)
         self._history_df = pd.concat([self._history_df, new_df], ignore_index=True)
         LOGGER.info("Record added: %s", new_record)

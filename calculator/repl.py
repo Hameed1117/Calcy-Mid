@@ -11,7 +11,7 @@ import importlib
 from calculator.main_logic import CalculatorApp
 from calculator.logger import LoggerSingleton
 
-logger = LoggerSingleton.get_logger()
+LOGGER = LoggerSingleton.get_logger()
 
 class REPL:
     def __init__(self):
@@ -25,7 +25,7 @@ class REPL:
             "clear_history": self.cmd_clear_history,
             "delete_history_file": self.cmd_delete_history_file,
             "save_history": self.cmd_save_history,
-            "load_history": self.cmd_load_history
+            "load_history": self.cmd_load_history,
         }
         self.load_plugins()
         self.arithmetic_cmds = {
@@ -36,55 +36,60 @@ class REPL:
             "sqrt": 1,
             "square": 1,
             "cube": 1,
-            "log": 1
+            "log": 1,
         }
 
     def load_plugins(self):
         plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
         if not os.path.isdir(plugins_dir):
-            logger.warning("Plugins directory not found.")
+            LOGGER.warning("Plugins directory not found.")
             return
 
         for file in os.listdir(plugins_dir):
             if file.endswith(".py") and file != "__init__.py":
                 plugin_name = file[:-3]
                 try:
-                    module = importlib.import_module(f"calculator.plugins.{plugin_name}")
+                    module = importlib.import_module(
+                        f"calculator.plugins.{plugin_name}"
+                    )
                     plugin_class = getattr(module, "PluginCommand", None)
                     if plugin_class:
                         instance = plugin_class()
                         self.plugins[instance.command_name] = instance
-                        logger.info("Plugin loaded: %s", instance.command_name)
-                except Exception as exc:
-                    logger.error("Failed to load plugin %s: %s", plugin_name, exc, exc_info=True)
+                        LOGGER.info("Plugin loaded: %s", instance.command_name)
+                except Exception as exc:  # pylint: disable=broad-exception-caught
+                    LOGGER.error(
+                        "Failed to load plugin %s: %s", plugin_name, exc,
+                        exc_info=True
+                    )
 
     # Special command handlers
-    def cmd_exit(self, parts):
+    def cmd_exit(self, _parts):
         print("Exiting the calculator. Goodbye!")
         sys.exit(0)
 
-    def cmd_menu(self, parts):
+    def cmd_menu(self, _parts):
         self.show_menu()
 
-    def cmd_usage(self, parts):
+    def cmd_usage(self, _parts):
         self.show_usage()
 
-    def cmd_history(self, parts):
+    def cmd_history(self, _parts):
         print(self.calculator.history.get_history())
 
-    def cmd_clear_history(self, parts):
+    def cmd_clear_history(self, _parts):
         self.calculator.history.clear_history()
         print("History cleared in memory.")
 
-    def cmd_delete_history_file(self, parts):
+    def cmd_delete_history_file(self, _parts):
         self.calculator.history.delete_history_file()
         print("History file deleted.")
 
-    def cmd_save_history(self, parts):
+    def cmd_save_history(self, _parts):
         self.calculator.history.save_history()
         print("History saved to file.")
 
-    def cmd_load_history(self, parts):
+    def cmd_load_history(self, _parts):
         self.calculator.history.load_history()
         print("History loaded from file.")
 
@@ -97,11 +102,11 @@ class REPL:
         print("  sqrt, square, cube, log")
         if self.plugins:
             print("\nPlugin Commands:")
-            for cmd_name in self.plugins.keys():
-                print(f"  {cmd_name}")
+            for cmd_name in self.plugins:
+                print("  " + cmd_name)
         print("\nSpecial Commands:")
-        print("  history, clear_history, delete_history_file, save_history, load_history")
-        print("  menu, usage, exit\n")
+        print("  history, clear_history, delete_history_file")
+        print("  save_history, load_history, menu, usage, exit\n")
 
     def show_usage(self):
         print("\n--- USAGE: How to Use the Calculator ---")
@@ -114,7 +119,8 @@ class REPL:
 
     def start(self):
         print("Welcome to the Advanced Calculator REPL!")
-        print("Type 'menu' to see available commands, 'usage' for instructions, or 'exit' to quit.\n")
+        print("Type 'menu' to see available commands, 'usage' for instructions, "
+              "or 'exit' to quit.\n")
         while True:
             user_input = input(">> ").strip()
             if not user_input:
@@ -159,7 +165,7 @@ class REPL:
                     print("Unknown operation or error occurred.")
             except ValueError:
                 print("Error: Please provide valid numeric input(s).")
-            except Exception as exc:
+            except Exception as exc:  # pylint: disable=broad-exception-caught
                 print(f"Error: {exc}")
             return True
         return False
