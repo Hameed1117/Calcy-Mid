@@ -189,8 +189,8 @@ Test files are located under [`tests/`](tests/) with coverage for:
 
 ## Demo Video
 
-A short (3–5 minute) video demonstrating this calculator’s features is available at:
-- **[Google Drive Video Link]((https://drive.google.com/file/d/1bObYTNztKHvcxd4jIpV9f1McpXWRdIee/view?usp=sharing))**
+[Watch the Demo Video](https://drive.google.com/file/d/1bObYTNztKHvcxd4jIpV9f1McpXWRdIee/view?usp=sharing)
+
 
 In the video, you’ll see how to:
 - Run the application and display the menu.
