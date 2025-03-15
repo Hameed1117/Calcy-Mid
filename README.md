@@ -1,90 +1,206 @@
 # Advanced Python Calculator
 
+## Table of Contents
+1. [Project Overview](#project-overview)
+2. [Setup Instructions](#setup-instructions)
+3. [Usage Instructions](#usage-instructions)
+4. [Design Patterns](#design-patterns)
+5. [Logging & Environment Variables](#logging--environment-variables)
+6. [Exception Handling (LBYL vs EAFP)](#exception-handling-lbyl-vs-eafp)
+7. [Calculation History with Pandas](#calculation-history-with-pandas)
+8. [Plugin System](#plugin-system)
+9. [Tests & Code Coverage](#tests--code-coverage)
+10. [Demo Video](#demo-video)
+11. [License](#license)
+
+---
+
 ## Project Overview
-This application demonstrates professional software development practices including clean, maintainable code, the use of design patterns, comprehensive logging, dynamic configuration via environment variables, robust data handling with Pandas, and a feature-rich command-line interface (REPL) for real-time user interaction.
 
-## Key Features
-- **Calculator Operations:**  
-  Basic arithmetic (add, subtract, multiply, divide) and advanced operations (square root, square, cube, logarithm) are implemented.
-- **REPL Interface:**  
-  A user-friendly command-line interface allows users to interact with the calculator in real time.
-- **History Management:**  
-  Calculation history is managed using Pandas. Users can load, save, clear, and delete their calculation history, which is stored in a dedicated `history` folder.
-- **Dynamic Plugin System:**  
-  The calculator supports a plugin system to extend functionality without modifying core code. A sample plugin is included as a demonstration.
-- **Comprehensive Logging:**  
-  Logging is integrated throughout the application with configurable log levels and output destinations (via environment variables).
-- **Robust Exception Handling:**  
-  The application employs both LBYL (Look Before You Leap) and EAFP (Easier to Ask for Forgiveness than Permission) styles in exception handling.
-- **Design Patterns:**  
-  - **Command Pattern:** Each arithmetic operation is encapsulated in its own command class.
-  - **Factory Pattern:** A factory method selects and returns the correct command object based on user input.
-  - **Facade Pattern:** A facade provides a simplified interface for managing complex Pandas operations.
-  - **Singleton Pattern:** A singleton logger ensures a single logging instance across the application.
-  - **Plugin Pattern:** Plugins are dynamically loaded to extend functionality.
+This **Advanced Python Calculator** is a command-line application (REPL) showcasing professional software development techniques, including:
 
-## Environment Variables & Logging
-The application uses environment variables to configure logging:
-- `LOG_LEVEL`: Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL).
-- `LOG_FILE`: If set, log output is written to the specified file instead of the console.
-See [calculator/logger.py](calculator/logger.py) for implementation details.
+- **Clean Code & Linting**: Follows PEP 8 guidelines, enforced via pylint.
+- **Object-Oriented Design & Patterns**: Implements multiple design patterns (Command, Factory, Facade, Singleton, Plugin).
+- **Comprehensive Logging**: Configurable log level and output destination through environment variables.
+- **Persistent History Management**: Uses Pandas to manage and store calculation history in a CSV file.
+- **Extensible Architecture**: Supports dynamically loaded plugins (e.g., trigonometry) without modifying core code.
+- **High Test Coverage**: Unit tests, integration tests, and coverage checks via pytest and pytest-cov.
 
-## Setup & Installation
-1. **Clone the Repository:**
+---
+
+## Setup Instructions
+
+1. **Clone the Repository**  
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone <your-repository-url>
+   cd <your-repository-directory>
    ```
-2. **Create and Activate a Virtual Environment:**
+
+2. **Create and Activate a Virtual Environment**  
    ```bash
    python3 -m venv venv
-   source venv/bin/activate
+   source venv/bin/activate  # (Linux/Mac)
+   # Windows: venv\Scripts\activate
    ```
-3. **Install Dependencies:**
+
+3. **Install Dependencies**  
    ```bash
+   pip install --upgrade pip
    pip install -r requirements.txt
    ```
+   Make sure your **requirements.txt** includes packages like `pandas`, `pytest`, `pytest-cov`, `pylint`.
 
-## Running the Application
-From the repository root, run:
+4. **(Optional) Configure Logging**  
+   ```bash
+   export LOG_LEVEL=DEBUG
+   export LOG_FILE=logs/calculator.log
+   ```
+   Without `LOG_FILE`, logs print to console; with it, logs also go to `logs/calculator.log`.
 
-```bash
-python -m calculator.main
-```
+---
 
-Alternatively, you can run:
+## Usage Instructions
 
-```bash
-python calculator/main.py
-```
+1. **Run the Calculator**  
+   ```bash
+   python -m calculator.main
+   ```
+   You’ll see a welcome message. Type `menu` for commands, or `usage` for instructions.
 
-This starts the REPL interface where you can type commands (e.g., add 2 3, sqrt 16, etc.).
+2. **Basic Arithmetic**  
+   - `add 2 3` → prints “Result: 5”  
+   - `mul 4 5` → prints “Result: 20”  
 
-## Running Tests
-The project includes comprehensive tests using Pytest. To run the tests:
+3. **Advanced Operations**  
+   - `sqrt 16` → prints “Result: 4”  
+   - `log 100` → prints “Result: 2”
 
-```bash
-pytest
-```
+4. **History Commands**  
+   - `history` → Displays in-memory history as a small Pandas DataFrame.  
+   - `save_history` → Saves to CSV (`history/history.csv`).  
+   - `load_history` → Loads from CSV.  
+   - `clear_history` → Empties in-memory record only.  
+   - `delete_history_file` → Removes the CSV file on disk.
 
-## Continuous Integration
-A GitHub Actions workflow is configured (located at .github/workflows/python-app.yml) to automatically run tests and linting (via pylint) on every push and pull request.
+5. **Plugin Commands**  
+   - `sample_plugin` → Example plugin logs a message.  
+   - `trig` → Prompts for an operation like `sin 30`.  
 
-## Video Demonstration
-A brief 3-5 minute video demonstration of the calculator's key features is available. The video highlights:
+6. **Exit**  
+   - `exit` → Quits the REPL.
 
-- The REPL interface in action.
-- How to execute arithmetic operations.
-- Managing calculation history.
-- Dynamically loaded plugins.
-- Logging and error handling mechanisms.
+---
 
-Watch the demonstration here: [Video Link]
+## Design Patterns
 
-## Commit History & Documentation
-This repository maintains a clear commit history with logical, incremental changes that document the development process. For more details on the design patterns and logging strategy used, please refer to the inline comments in the source code.
+1. **Command Pattern**  
+   - **Where**: Each operation (add, sub, mul, etc.) is a separate class in [commands.py](calculator/commands.py).  
+   - **Why**: Decouples operation logic from the REPL, making it easy to add new commands.
 
-## Conclusion
-This project showcases advanced programming techniques, design patterns, and professional software development practices. Enjoy using the Advanced Python Calculator!
+2. **Factory Pattern**  
+   - **Where**: [CommandFactory in main_logic.py](calculator/main_logic.py) matches a command string (e.g. “add”) to a command object.  
+   - **Why**: Centralizes object creation and ensures consistent usage.
 
-Happy Calculating!
+3. **Facade Pattern**  
+   - **Where**: [HistoryFacade](calculator/history_facade.py) wraps Pandas operations for loading/saving history.  
+   - **Why**: Simplifies REPL code by exposing straightforward `load_history()`, `save_history()`, etc.
+
+4. **Singleton Pattern**  
+   - **Where**: [LoggerSingleton in logger.py](calculator/logger.py) ensures one logger instance.  
+   - **Why**: Avoids multiple competing log handlers.
+
+5. **Plugin Pattern**  
+   - **Where**: [plugins folder](calculator/plugins/) contains `.py` files (e.g. `trig_plugin.py`). The REPL auto-loads classes named `PluginCommand`.  
+   - **Why**: Adds new features (like trigonometry) without modifying core code.
+
+---
+
+## Logging & Environment Variables
+
+- **Environment Variables**:  
+  - `LOG_LEVEL` → “DEBUG”, “INFO”, “WARNING”, “ERROR”, “CRITICAL”  
+  - `LOG_FILE` → If set, logs are written to that file; otherwise, logs go to console.
+
+- **Where**: [LoggerSingleton](calculator/logger.py).  
+- **Why**: Allows easy debugging and monitoring by adjusting log detail or location at runtime without code changes.
+
+---
+
+## Exception Handling (LBYL vs EAFP)
+
+1. **LBYL (“Look Before You Leap”)**  
+   - In [HistoryFacade.load_history()](calculator/history_facade.py), we check if the CSV file exists before loading it, preventing spurious errors.
+
+2. **EAFP (“Easier to Ask for Forgiveness...”)**  
+   - In [repl.py](calculator/repl.py), we attempt to parse user input as floats and catch `ValueError`. We don’t pre-check; we just try and handle the exception if it fails.
+
+This approach balances safety checks (LBYL) for file operations and direct attempts (EAFP) for user input.
+
+---
+
+## Calculation History with Pandas
+
+- **DataFrame**: Stores each operation (“operation”, “operand1”, “operand2”, “result”).  
+- **CSV Management**:  
+  - `save_history()` → writes to disk, default `history/history.csv`.  
+  - `load_history()` → reads back into the DataFrame.  
+- **Where**: [HistoryFacade](calculator/history_facade.py).  
+- **Why**: Pandas allows easy data manipulation, display, and optional expansions (sorting, filtering, etc.).
+
+---
+
+## Plugin System
+
+1. **Auto-Discovery**: [repl.py](calculator/repl.py) scans `calculator/plugins/` for `.py` files.  
+2. **Implementation**: Each plugin has a class named `PluginCommand` with a `command_name` attribute.  
+3. **Example**: 
+   - [sample_plugin.py](calculator/plugins/sample_plugin.py) logs a message.  
+   - [trig_plugin.py](calculator/plugins/trig_plugin.py) offers trigonometric functions (e.g., sin, cos, tan, etc.).
+
+---
+
+## Tests & Code Coverage
+
+- **Running Tests**:  
+  ```bash
+  pytest
+  ```
+
+- **Coverage**:  
+  ```bash
+  pytest --cov=calculator --cov-report=term-missing
+  ```
+  Aiming for ≥90% coverage. 
+
+- **Linting**:  
+  ```bash
+  pytest --pylint
+  ```
+  Ensures PEP8 compliance and consistent code style.
+
+Test files are located under [`tests/`](tests/) with coverage for:
+- **Arithmetic Commands** (add, sub, etc.)
+- **REPL** 
+- **Plugin Loading** 
+- **History Management** 
+- **Main Entrypoint** (`main.py`)
+
+---
+
+## Demo Video
+
+A short (3–5 minute) video demonstrating this calculator’s features is available at:
+- **[Google Drive Video Link](https://drive.google.com/your-video-link)**
+
+In the video, you’ll see how to:
+- Run the application and display the menu.
+- Perform basic and advanced arithmetic.
+- Save/load history and manage CSV files.
+- Use plugins (like the trigonometry plugin).
+- Observe logging behavior (if configured).
+
+---
+
+For questions, contributions, or issues, please open a Pull Request or raise an Issue in the repository. 
+
+Thank you for using the **Advanced Python Calculator** and exploring its design, logging, testing, and extensibility features!
